@@ -7,3 +7,4 @@ expect some issues with the "protobuf" library, you may need to downgrade it to 
 
 # The demo.zip folder has a visual demonstration of the code working on my machines (1 client shown)
 
+Extract its contents using -> tar -xzvf demo.tar.gz
