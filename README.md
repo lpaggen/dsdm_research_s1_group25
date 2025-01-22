@@ -1,3 +1,5 @@
+Diabetes dataset link: https://www.kaggle.com/datasets/mathchi/diabetes-data-set
+
 # Make sure you run the following command on every client to install dependencies
 conda -> conda install --file requirements.txt
 
