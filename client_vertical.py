@@ -24,14 +24,11 @@ def load_data(client_id):
 
     return X_train, X_test, y_train, y_test
 
-def create_model(input_shape):
+def create_model(input_shape): # naturally these models are not perfect fits, expect differing performance with each small modification
     model = tf.keras.Sequential([
         tf.keras.layers.Input(shape=input_shape),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(64, activation="relu"),
+        tf.keras.layers.Dense(16, activation="relu"),
+        tf.keras.layers.Dense(8, activation="relu"),
         tf.keras.layers.Dense(1, activation="sigmoid")
     ])
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
@@ -46,7 +43,7 @@ class DiabetesClient(fl.client.NumPyClient): # deprecated, look at flower docume
         self.y_test = y_test
 
     def get_parameters(self):
-        print("Sending parameters to the server")
+        print("sharing params to server")
         print(self.model.get_weights())
         return self.model.get_weights()
 
@@ -60,10 +57,10 @@ class DiabetesClient(fl.client.NumPyClient): # deprecated, look at flower docume
         return updated_parameters, len(self.X_train), {}
 
     def evaluate(self, parameters):
-        print("Evaluating model with received parameters")
+        print("evaluating model")
         self.model.set_weights(parameters)
         loss, accuracy = self.model.evaluate(self.X_test, self.y_test, verbose=0)
-        print(f"Evaluation results - Loss: {loss}, Accuracy: {accuracy}")
+        print(f"-> loss: {loss}, accuracy: {accuracy}")
         return loss, len(self.X_test), {"accuracy": accuracy}
 
 if __name__ == "__main__":
@@ -74,4 +71,4 @@ if __name__ == "__main__":
     model = create_model(X_train.shape[1:])
 
     client = DiabetesClient(model, X_train, X_test, y_train, y_test)
-    fl.client.start_numpy_client(server_address="ip:port", client=client)
+    fl.client.start_numpy_client(server_address="ip:port", client=client) # replace with own ip and port (8080) default for flower

@@ -27,12 +27,8 @@ def load_data(client_id):
 def create_model(input_shape): # here we can select any model from tensorflow, could use pytorch too, tensorflow tends to be easier
     model = tf.keras.Sequential([
         tf.keras.layers.Input(shape=input_shape),  # set to number of X variables in dataset 
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dense(64, activation="relu"),
+        tf.keras.layers.Dense(16, activation="relu"),
+        tf.keras.layers.Dense(8, activation="relu"),
         tf.keras.layers.Dense(1, activation="sigmoid") # sigmoid for binary output
     ])
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
